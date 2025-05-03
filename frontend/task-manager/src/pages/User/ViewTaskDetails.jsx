@@ -1,6 +1,6 @@
 import React from 'react'
 
-function ViewTaskDetails() {
+const ViewTaskDetails = () => {
   return (
     <div>
       
@@ -8,4 +8,5 @@ function ViewTaskDetails() {
   )
 }
 
-export default ViewTaskDetails;
+export default ViewTaskDetails
+

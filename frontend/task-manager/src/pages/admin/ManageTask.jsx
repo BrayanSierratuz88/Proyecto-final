@@ -1,6 +1,6 @@
 import React from 'react'
 
-function ManageTask() {
+const ManageTask = () => {
   return (
     <div>
       
@@ -8,4 +8,5 @@ function ManageTask() {
   )
 }
 
-export default ManageTask;
+export default ManageTask
+

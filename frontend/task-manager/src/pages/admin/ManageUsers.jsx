@@ -1,6 +1,6 @@
 import React from 'react'
 
-function ManageUsers() {
+const ManageUsers = () => {
   return (
     <div>
       
@@ -8,4 +8,5 @@ function ManageUsers() {
   )
 }
 
-export default ManageUsers;
+export default ManageUsers
+

@@ -1,6 +1,6 @@
 import React from 'react'
 
-function MyTasks() {
+const MyTasks = () => {
   return (
     <div>
       
@@ -8,4 +8,5 @@ function MyTasks() {
   )
 }
 
-export default MyTasks;
+export default MyTasks
+

@@ -1,6 +1,6 @@
 import React from 'react'
 
-function CreateTask() {
+const CreateTask = () => {
   return (
     <div>
       
@@ -8,4 +8,5 @@ function CreateTask() {
   )
 }
 
-export default CreateTask;
+export default CreateTask
+
