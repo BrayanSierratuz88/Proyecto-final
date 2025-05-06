@@ -13,30 +13,45 @@ const generateToken = (userId) => {
 // @route POST /api/auth/register
 // @access Public
 const registerUser = async (req, res) => {
-  const { name, email, password } = req.body;
-
   try {
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
+    const{ name,email,password,profileImageUrl, adminInviteToken } = req.body;
+
+    // Check if user already exists
+    const userExists = await User.findOne({ email });
+    if (userExists) {
       return res.status(400).json({ message: "User already exists" });
     }
+    //Determine user role based on adminInviteToken
+    let role = "member";
+    if ( 
+      adminInviteToken &&
+      adminInviteToken === process.env.ADMIN_INVITE_TOKEN
+    ) {
+      role = "admin";
+    }
+    // Hash password
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
 
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    const newUser = await User.create({
+    // Create user
+    const user = await User.create({
       name,
       email,
       password: hashedPassword,
+      profileImageUrl,
+      role,
     });
 
-    const token = generateToken(newUser._id);
-
+    // Return user data with JWT
     res.status(201).json({
-      _id: newUser._id,
-      name: newUser.name,
-      email: newUser.email,
-      token,
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      role: user.role,  
+      profileImageUrl: user.profileImageUrl,
+      token: generateToken(user._id),
     });
+
   } catch (error) {
     res.status(500).json({ message: "Server error", error: error.message });
   }
@@ -46,24 +61,7 @@ const registerUser = async (req, res) => {
 // @route POST /api/auth/login
 // @access Public
 const loginUser = async (req, res) => {
-  const { email, password } = req.body;
-
-  try {
-    const user = await User.findOne({ email });
-    if (!user) return res.status(404).json({ message: "User not found" });
-
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) return res.status(401).json({ message: "Invalid credentials" });
-
-    const token = generateToken(user._id);
-
-    res.status(200).json({
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-      token,
-    });
-  } catch (error) {
+  try {} catch (error) {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
@@ -72,12 +70,7 @@ const loginUser = async (req, res) => {
 // @route GET /api/auth/profile
 // @access Private
 const getUserProfile = async (req, res) => {
-  try {
-    const user = await User.findById(req.user.id).select("-password");
-    if (!user) return res.status(404).json({ message: "User not found" });
-
-    res.status(200).json(user);
-  } catch (error) {
+  try {} catch (error) {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
@@ -86,26 +79,7 @@ const getUserProfile = async (req, res) => {
 // @route PUT /api/auth/update
 // @access Private
 const updateUserProfile = async (req, res) => {
-  try {
-    const user = await User.findById(req.user.id);
-
-    if (!user) return res.status(404).json({ message: "User not found" });
-
-    user.name = req.body.name || user.name;
-    user.email = req.body.email || user.email;
-
-    if (req.body.password) {
-      user.password = await bcrypt.hash(req.body.password, 10);
-    }
-
-    const updatedUser = await user.save();
-
-    res.status(200).json({
-      _id: updatedUser._id,
-      name: updatedUser.name,
-      email: updatedUser.email,
-    });
-  } catch (error) {
+  try {} catch (error) {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
