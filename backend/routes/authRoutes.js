@@ -16,4 +16,5 @@ router.post("/login", loginUser);
 router.get("/profile", protect, getUserProfile);   // GET para obtener datos
 router.put("/update", protect, updateUserProfile); // PUT para actualizar datos
 
+
 module.exports = router;
