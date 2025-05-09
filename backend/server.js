@@ -6,6 +6,8 @@ const connectDB = require("./config/db");
 
 // Importar rutas
 const authRoutes = require("./routes/authRoutes");
+const userRoutes = require("./routes/userRoutes");
+const taskRoutes = require("./routes/taskRoutes");
 
 
 const app = express();
@@ -25,12 +27,12 @@ app.use(express.json());
 
 // Rutas
 app.use("/api/auth", authRoutes);
-//app.use("/api/user", userRoutes);
-//app.use("/api/task", taskRoutes);
+app.use("/api/user", userRoutes);
+app.use("/api/task", taskRoutes);
 //app.use("/api/reports", reportRoutes);
 
 // Iniciar el servidor
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
