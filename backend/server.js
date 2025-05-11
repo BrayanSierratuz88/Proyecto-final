@@ -9,7 +9,6 @@ const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
 const taskRoutes = require("./routes/taskRoutes");
 
-
 const app = express();
 
 // Middleware para manejar CORS
@@ -29,7 +28,6 @@ app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/task", taskRoutes);
-//app.use("/api/reports", reportRoutes);
 
 // Iniciar el servidor
 const PORT = process.env.PORT || 8000;
