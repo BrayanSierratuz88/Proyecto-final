@@ -1,10 +1,11 @@
 import React from 'react'
+import AuthLayout from '../../components/layouts/AuthLayout'
 
 const SingUp = () => {
   return (
-    <div>
-      
-    </div>
+    <AuthLayout>
+      SingUp
+    </AuthLayout>
   )
 }
 
