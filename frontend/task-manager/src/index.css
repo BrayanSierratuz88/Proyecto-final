@@ -1,28 +1,34 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
 @import "tailwindcss";
 
-@theme {
+@theme
+{
   --font-display: "Poppins", "sans-serif";
   --breakpoint-3xl: 1920px;
   --color-primary: #1386ec;
 }
 
-@layer base {
-  html {
+@layer base 
+{
+  html
+  {
     font-family: var(--font-display);
   }
 
-  body {
+  body
+  {
     background-color: #fcfbfc;
     overflow-x: hidden;
   }
 }
 
-.input-box {
+.input-box
+{
   @apply w-full flex justify-between gap-3 text-sm text-black bg-slate-100/50 rounded px-4 py-3 mb-4 mt-3 border border-slate-200 outline-none;
 }
 
-.btn-primary{
+.btn-primary
+{
   @apply w-full text-sm font-medium text-white bg-primary shadow-lg shadow-purple-600/5 p-[10px] rounded-md my-1 hover:bg-blue-600/15 hover:text-blue-600 cursor-pointer;
 }
+
