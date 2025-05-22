@@ -23,9 +23,11 @@ import ViewTaskDetails from "./pages/User/ViewTaskDetails";
 
 // PrivateRoute component
 import PrivateRoute from "./routes/PrivateRoute";
+import UserProvider from "./context/userContext";
 
 const App = () => {
   return (
+    <UserProvider>
     <Router>
       <div>
         <Routes>
@@ -47,13 +49,16 @@ const App = () => {
             <Route path="/user/tasks" element={<MyTasks />} />
             <Route path="/user/task-details/:id" element={<ViewTaskDetails />} />
           </Route>
-        </Routes>
-      </div>
-    </Router>
+          </Routes>
+        </div>
+        </Router>
+      </UserProvider>
+        
+    
   );
 };
 
-export default App
+export default App;
 
 
 
