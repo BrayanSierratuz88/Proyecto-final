@@ -1,34 +1,44 @@
+/* Importa la fuente 'Poppins' desde Google Fonts con distintos pesos */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+
+/* Importa todas las utilidades y configuraciones de Tailwind CSS */
 @import "tailwindcss";
 
+/* Define variables personalizadas para el tema del sitio */
 @theme
 {
-  --font-display: "Poppins", "sans-serif";
-  --breakpoint-3xl: 1920px;
-  --color-primary: #1386ec;
+  --font-display: "Poppins", "sans-serif";  /* Fuente principal de todo el sitio */
+  --breakpoint-3xl: 1920px;                /* Punto de quiebre personalizado para pantallas muy grandes */
+  --color-primary: #1386ec;                /* Color primario personalizado */
 }
 
+/* Define estilos base usando la capa 'base' de Tailwind para aplicar estilos globales */
 @layer base 
 {
   html
   {
-    font-family: var(--font-display);
+    font-family: var(--font-display);  /* Aplica la fuente definida a todo el documento */
   }
 
   body
   {
-    background-color: #fcfbfc;
-    overflow-x: hidden;
+    background-color: #fcfbfc;  /* Color de fondo claro para el cuerpo del documento */
+    overflow-x: hidden;         /* Previene desplazamiento horizontal */
   }
 }
 
+/* Estilos para una caja de entrada reutilizable */
 .input-box
 {
+  /* Aplica varias utilidades Tailwind: ancho completo, diseño flex para separar elementos, 
+     texto pequeño, fondo translúcido, bordes redondeados y espaciado interno y externo */
   @apply w-full flex justify-between gap-3 text-sm text-black bg-slate-100/50 rounded px-4 py-3 mb-4 mt-3 border border-slate-200 outline-none;
 }
 
+/* Estilos para un botón primario reutilizable */
 .btn-primary
 {
+  /* Aplica utilidades Tailwind: ancho completo, texto blanco con fondo primario, 
+     sombra suave, relleno, bordes redondeados y estilos de hover */
   @apply w-full text-sm font-medium text-white bg-primary shadow-lg shadow-purple-600/5 p-[10px] rounded-md my-1 hover:bg-blue-600/15 hover:text-blue-600 cursor-pointer;
 }
-
