@@ -29,7 +29,8 @@ app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/task", taskRoutes);
 app.use("/api/report", reportRoutes); 
-
+// serve uploads folder
+//app.use("/uploads",express.static(path.join(__dirname,"uploads")));
 
 // Ruta no encontrada
 app.use((req, res) => {

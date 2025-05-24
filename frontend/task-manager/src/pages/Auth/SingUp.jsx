@@ -1,24 +1,31 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import AuthLayout from '../../components/layouts/AuthLayout'
 import { validateEmail } from '../../utils/helper';
 import ProfilePhotoSelector from '../../components/Inputs/ProfilePhotoSelecto';
 import Input from '../../components/Inputs/input';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import axiosInstance from '../../utils/axiosInstance';
+import { API_PATHS } from '../../utils/apiPaths';
+import { UserContext } from '../../context/userContext';
+import uploadImage from '../../utils/uploadImage';
 
 const SingUp = () => {
   const [profilePic, setProfilePic] = useState(null);
   const [fullName, setFullName] = useState("");
   const [email,setEmail] = useState ("");
   const [Password, setPassword] = useState("");
-  const [adminInviteToken, setAdminInviteToken] = useState('')
+  const [adminInviteToken, setAdminInviteToken] = useState('');
 
 
   const [error, setError] = useState(null);
 
+   const { updateUser } = useContext(UserContext); // <--- CORREGIDO
+  const navigate = useNavigate();
+
   // handle signUp form submit
     const handleSignUp = async (e) => {
       e.preventDefault();
-  
+      let profileImageUrl=''
       if(!fullName){
         setError("Please enter full name.");
         return;
@@ -33,6 +40,40 @@ const SingUp = () => {
       }
       setError("");
       //Sign Up Api Call
+      try {
+
+        //Upload image if present
+        if (profilePic){
+          const imgUploadRes = await uploadImage(profilePic);
+          profileImageUrl = imgUploadRes.imageUrl || "";
+        }
+        const response = await axiosInstance.post(API_PATHS.AUTH.REGISTER,{
+          name: fullName,
+          email,
+          password,
+          profileImageUrl,
+          adminInviteToken
+        });
+        const { token, role } = response.data;
+        if (token){
+          localStorage.setItem("token",token);
+          updateUser(response.data);
+          //Redirect based on role
+          if (role === "admin"){
+            navigate("/admin/dashboard");
+          } else {
+            navigate("/user/dashboard");
+          }
+        }
+        
+      }catch (error){
+        if (error.response&& error.response.data.message){
+          setError(error.response.data.message);
+        } else {
+          setError("Something Went Wrong. Please Try again.");
+        }
+      }
+      
   
       // Aquí va la lógica de autenticación
     };
@@ -69,13 +110,14 @@ const SingUp = () => {
           placeholder="Min 8 characters"
           type="password"
           />
-          <Input
-          value={Password}
-          onChange={({ target }) => setPassword(target.value)}
-          label="Admin Invite Token"
-          placeholder="6 Digit Code"
-          type="text"
-          /></div>
+          <input
+             value={adminInviteToken} // <-- el estado, no la función
+            onChange={({ target }) => setAdminInviteToken(target.value)}
+            label="Admin Invite Token"
+            placeholder="6 Digit Code"
+            type="text"
+          />
+        </div>
 
           {error && <p className="text-red-500 text-xs pb-2.5">{error}</p>}
           <button type="submit" className="btn-primary">
