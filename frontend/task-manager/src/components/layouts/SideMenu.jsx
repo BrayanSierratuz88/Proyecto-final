@@ -26,9 +26,11 @@ const SideMenu = ({activeMenu}) => {
       setSideMenuData(user?.role === 'admin' ? SIDE_MENU_DATA : SIDE_MENU_USER_DATA)
     }
   }, [user]);
-  
-  // Verifica el objeto user en consola
-   //console.log(user);
+
+  // Si no hay usuario, no renderizar nada (o puedes mostrar un loader)
+  if (!user) {
+    return null;
+  }
 
   return (
     <div className="w-65 h-[calc(100vh-61px)] bg-white border-r border-gray-200/50 sticky top-[61px] z-20">
