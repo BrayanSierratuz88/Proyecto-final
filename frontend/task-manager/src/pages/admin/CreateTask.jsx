@@ -52,12 +52,65 @@ const CreateTask = () => {
   };
 
   //Create task
-  const createTask = async () => {};
+  const createTask = async () => {
+    setLoading(true);
+
+    try {
+      const todolist = taskData.todoChecklist?.map((item) => ({
+        text: item,
+        completed: false,
+      }));
+
+      const response = await axiosInstance.post(API_PATHS.CREATE_TASK, {
+        ...taskData,
+        dueDate: new Date(taskData.dueDate).toISOString(),
+        todoChecklist: todolist,
+      });
+
+      toast.success("Task Created Successfully");
+
+      clearData();
+    } catch (error) {
+      console.error("Error creating task:", error);
+      setLoading(false);
+    } finally {
+      setLoading(false);
+    }
+  };
   
   //update Task
   const updateTask = async () => {};
 
-  const handleSubmit = async () => {};
+  const handleSubmit = async () => {
+    setError(null);
+
+    //Imput validation
+    if (!taskData.title.trim()) {
+      setError("Title is required.");
+      return;
+    }
+    if (!taskData.description.trim()) {
+      setError("Description is required.");
+      return;
+    }
+    if (!taskData.dueDate) {
+      setError("Due date is required.");
+      return;
+    }
+    if (taskData.assignedTo?.length === 0) {
+      setError("Task not assignet to any member.");
+      return;
+    }
+    if (taskData.todoChecklist?.length === 0) {
+      setError("Add atleast one todo task.");
+      return;
+    }
+    if (taskId) {
+      updateTask();
+      return;
+    }
+    createTask();
+  };
 
   // get Task info by ID
   const getTaskDetailsByID = async () => {};
@@ -67,7 +120,7 @@ const CreateTask = () => {
 
 
   return (
-   <DashboardLayout activeMenu="Create Task">
+  <DashboardLayout activeMenu="Create Task">
     <div className="mt-5">
       <div className="grid grid-cols-1 md:grid-cols-4 mt-4">
         <div className="form-card col-span-3">
@@ -182,11 +235,22 @@ const CreateTask = () => {
                       }
                       />
                     </div>
-              </div>
-             </div>
-            </div>
+                    {error && (
+                      <p className="text-xs font-medium text-red-500 mt-5">{error}</p>
+                    )}
 
-      
+                    <div className="flex justify-end mt-7">
+                      <button
+                      className="add-btn"
+                      onClick={handleSubmit}
+                      disabled={loading}
+                      >
+                        {taskId ? "UPDATE TASK" : "CREATE TASK"}
+                      </button>
+                      </div>
+              </div>
+            </div>
+            </div>
     </DashboardLayout>
   )
 }
