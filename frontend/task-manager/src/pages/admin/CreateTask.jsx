@@ -17,15 +17,17 @@ const CreateTask = () => {
   const {taskId} = location.state || {};
   const navigate = useNavigate();
 
-  const [taskData, setTaskData] =useState({
-    title: "",
-    description:"",
-    priority:"low",
-    dueDate: null ,
-    assignedTo:[],
-    todoChecklist:[],
-    attachments: [],
-  });
+  // ...existing code...
+const [taskData, setTaskData] = useState({
+  title: "",
+  description: "",
+  priority: "low",
+  dueDate: "", // <--- aquí
+  assignedTo: [],
+  todoChecklist: [],
+  attachments: [],
+});
+// ...existing code...
   const [currentTask, setCurrentTask] =useState(null);
 
   const [error,setError] = useState("");
@@ -148,7 +150,7 @@ const CreateTask = () => {
                   className="form-input"
                   value={taskData.title}
                   onChange={({ target }) =>
-                    handelValueChange("Title", target.value)
+                    handelValueChange("title", target.value)
                 }
                 />
                 </div>
@@ -188,14 +190,13 @@ const CreateTask = () => {
                       Due Date 
                       </label>
                       <input 
-                      placeholder="Create App UI"
-                      className="form-input"
-                      value={taskData.dueDate}
-                      onChange={({ target }) =>
-                        handelValueChange("dueDate",target.value)
-                    }
-                    type="date"
-                    />
+  className="form-input"
+  value={taskData.dueDate}
+  onChange={({ target }) =>
+    handelValueChange("dueDate", target.value)
+  }
+  type="date"
+/>
                     </div>
 
 
@@ -229,11 +230,11 @@ const CreateTask = () => {
                         Add Attachments 
                       </label>
                       <AddAttachmentsInput
-                      attachments={taskData?.attachments}
-                      setAttchments= {(value) =>
-                        handelValueChange("attachments", value)
-                      }
-                      />
+  attachments={taskData?.attachments}
+  setAttachments={(value) =>
+    handelValueChange("attachments", value)
+  }
+/>
                     </div>
                     {error && (
                       <p className="text-xs font-medium text-red-500 mt-5">{error}</p>
@@ -256,4 +257,3 @@ const CreateTask = () => {
 }
 
 export default CreateTask
-
