@@ -7,24 +7,20 @@ export default [
   { ignores: ['dist'] },
   {
     files: ['**/*.{js,jsx}'],
-    languageOptions:
-    {
+    languageOptions: {
       ecmaVersion: 2020,
       globals: globals.browser,
-      parserOptions:
-      {
+      parserOptions: {
         ecmaVersion: 'latest',
         ecmaFeatures: { jsx: true },
         sourceType: 'module',
       },
     },
-    plugins:
-    {
+    plugins: {
       'react-hooks': reactHooks,
       'react-refresh': reactRefresh,
     },
-    rules:
-    {
+    rules: {
       ...js.configs.recommended.rules,
       ...reactHooks.configs.recommended.rules,
       'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
